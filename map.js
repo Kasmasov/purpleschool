@@ -21,5 +21,12 @@ const users = [
 const uniqueUsersById = [...new Set(users.map((user) => user.id))]
   .map((userId) => users.find((user) => userId === user.id));
 
-console.log(uniqueUsersById);
+// console.log(uniqueUsersById);
+
+// функкия генератор случайных чисел
+const randomNumber = (min, max) =>  Math.floor(Math.random() * (max - min + 1) + min);
+
+console.log(randomNumber(1, 20));
+
+
 
