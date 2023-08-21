@@ -13,25 +13,36 @@ function isBirthdayToday (user) {
 	return true;
 }
 
-// console.log(isBirthdayToday(user));
+function isAdult (date, age) {
+	const birthdayDate = getDateData(new Date(date));
+  const today = getDateData(new Date());
+	const isMoreThanAge = (today.years - birthdayDate.years) > age;
+	const isYearsEqualAge = (today.years - birthdayDate.years) === age;
+	const isMoreMonthsThanBirthday = today.months > birthdayDate.months;
+	const isMonthsEqualBirthday = today.months === birthdayDate.months;
+	const isDaysMoreOrEqualBirthday = today.days >= birthdayDate.days;
 
-function isAdult (date) {
-	const age = 14;
-  const today = new Date();
-	const birthdayDate = new Date(date);
+	function getDateData(date) {
+		return {
+    days: new Date(date).getDate(),
+		months: new Date(date).getMonth(),
+		years: new Date(date).getFullYear(),
+	  }
+	}
 
-	if (today.getFullYear() - birthdayDate.getFullYear() > age) {
+	if (isMoreThanAge) {
 		return true;
-	} else if(today.getFullYear() - birthdayDate.getFullYear() === age) {
-    if (today.getMonth() > birthdayDate.getMonth()) {
+	} else if(isYearsEqualAge) {
+    if (isMoreMonthsThanBirthday) {
 			return true;
-		} else if (today.getMonth() === birthdayDate.getMonth()) {
-			if (today.getDate() >= birthdayDate.getDate()) {
+		} else if (isMonthsEqualBirthday) {
+			if (isDaysMoreOrEqualBirthday) {
 				return true;
 			}
 		}
 	}
+	
 	return false;
 }
 
-console.log(isAdult('2009-08-22'))
+console.log(isAdult('2009-08-22', 14))
