@@ -21,41 +21,45 @@ function timer (timeValue) {
 
 const timeForNewYear = document.querySelector('#time-for-new-year');
 
-function timeBeforeDate (date) {
-	const newYearDate = new Date(date);
-	const startInterval = setInterval(() => {
-		let counter =  newYearDate - new Date();
-		const date = new Date(counter);
-		const seconds = date.getSeconds();
-		const minutes = date.getMinutes();
-		const hours = date.getHours();
-		const days = date.getDate()
-		const months = date.getMonth();
+function timeBeforeDate (NewYeardate, ref) {
 
-		function countForm (number, titles) {
-			number = Math.abs(number);
-			if (Number.isInteger(number)) {
-				cases = [2, 0, 1, 1, 1, 2];  
-				return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
-			}
-			return titles[1];
+  const startInterval = setInterval(function () {
+  const currentDate = new Date();
+  const newYearDate = new Date((NewYeardate));
+  const timeZoneOffset = currentDate.getTimezoneOffset() * 60 * 1000;
+  const getDifferent = newYearDate - currentDate + timeZoneOffset;
+
+  function countForm (number, titles) {
+		number = Math.abs(number);
+		if (Number.isInteger(number)) {
+			const cases = [2, 0, 1, 1, 1, 2];  
+			return titles[
+				(number % 100 > 4 && number % 100 < 20)
+					? 2
+					: cases[
+						(number % 10 < 5)
+							? number % 10
+							: 5
+					]
+			];
 		}
+		return titles[1];
+	};
 
-		const secondsText = `${seconds} ${countForm(seconds, ['секунда', 'секунды', 'секунд'])}`
-		const minutesText = `${minutes} ${countForm(minutes, ['минута', 'минуты', 'минут'])}`
-		const hoursText = `${hours} ${countForm(hours, ['час', 'часа', 'часов'])}`
-		const daysText = `${days} ${countForm(days, ['день', 'дня', 'дней'])}`
-		const monthsText = `${months} ${countForm(months, ['месяц', 'месяца', 'месяцев'])}`
-		
-		timeForNewYear.textContent = `${monthsText}, ${daysText}, ${hoursText}, ${minutesText}, ${secondsText}`;
-
-		drawCircle(context, 300, 300, 50, 0, 360, 60);
-
-	}, 1000);
-
-	setTimeout(() => {
+	if (getDifferent <= 0) {
 		clearInterval(startInterval);
-	}, counter);
+		return ref.textContent = 'Новый год уже прошел';
+	} else {
+		const date = new Date(getDifferent);
+		const secondsText = `${date.getUTCSeconds()} ${countForm(date.getUTCSeconds(), ['секунда', 'секунды', 'секунд'])}`
+		const minutesText = `${date.getUTCMinutes()} ${countForm(date.getUTCMinutes(), ['минута', 'минуты', 'минут'])}`
+		const hoursText = `${date.getUTCHours()} ${countForm(date.getUTCHours(), ['час', 'часа', 'часов'])}`
+		const daysText = `${date.getUTCDate() - 1} ${countForm(date.getUTCDate() - 1, ['день', 'дня', 'дней'])}`
+		const monthsText = `${date.getUTCMonth()} ${countForm(date.getUTCMonth(), ['месяц', 'месяца', 'месяцев'])}`
+    return ref.textContent = `${monthsText}, ${daysText}, ${hoursText}, ${minutesText}, ${secondsText}`
+	};
+	}, 1000)
+		
 };
 
-timeBeforeDate('2024-01-01')
+timeBeforeDate('2024-01-01 UTC', timeForNewYear)
