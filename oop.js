@@ -57,15 +57,19 @@ Character.prototype.speak = function () {
 	console.log(`${this.name}, ${this.language}`);
 }
 
-Character.prototype.weapons = function (weapons) {
+const Ork = function (name, race, language, weapons) {
+	Character.call(this, name, race,language);
 	this.weapons = weapons;
 }
 
-Character.prototype.stab = function () {
+Ork.prototype = Object.create(Character.prototype);
+Ork.prototype.constructor = Ork;
+
+Ork.prototype.stab = function () {
 	console.log('I stab you!')
 }
 
-const ork = new Character('John', 'green', 'thaba-thaba')
+const ork = new Ork('John', 'green', 'thaba-thaba')
 ork.weapons = 'Axe';
 ork.stab();
 
@@ -73,12 +77,18 @@ ork.speak();
 console.log(ork);
 ork.stab();
 
-Character.prototype.spell = function (spell, spellType) {
+const Elf = function (name, race, language) {
+	Character.call(this, name, race, language);
+}
+
+Elf.prototype = Object.create(Character.prototype);
+Elf.prototype.constructor = Elf;
+Elf.prototype.spell = function (spell, spellType) {
 	this.spell = spell;
 	this.spellType = spellType;
 	console.log(`${spell} - I conjure you with a ${spellType}`);
 };
 
-const elf = new Character('Robin', 'red', 'uba-tyba');
+const elf = new Elf('Robin', 'red', 'uba-tyba');
 console.log(elf);
 elf.spell('hyka-muka-kreks-peks', 'spell for power');
