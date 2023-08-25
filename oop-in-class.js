@@ -92,3 +92,44 @@ const sword = new Sword2(5);
 sword.strike(enemy)
 sword.strike(enemy)
 sword.strike(enemy)
+
+// Патерн Builder и chaining
+
+class Wallet {
+  balance = 0;
+
+  add(summ) {
+    this.balance += summ;
+    return this;
+  }
+
+  remove(summ) {
+    this.balance -= summ;
+    return this;
+  }
+}
+
+const wallet = new Wallet();
+const result = wallet.add(100).remove(20);
+console.log(result);
+
+class Builder {
+  house = {};
+
+  addRoof() {
+    this.house.roof = 'Roof';
+    return this;
+  }
+
+  addFloor() {
+    this.house.floor = 'Floor';
+    return this;
+  }
+
+  execute() {
+    return this.house;
+  }
+}
+
+const house = new Builder().addFloor().addRoof().execute();
+console.log(house);
