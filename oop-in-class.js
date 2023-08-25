@@ -19,7 +19,7 @@ class Sword {
   }
 }
 
-class Ork extends Enemy {
+class Orc extends Enemy {
   constructor (health) {
     super(health)
   }
@@ -38,14 +38,14 @@ class Ork extends Enemy {
   }
 }
 
-const ork = new Ork(100);
+const orc = new Orc(100);
 const exalibur = new Sword(5);
-console.log(ork);
-console.log(ork.takeDamage(exalibur.causeDamage()));
-console.log(ork.takeDamage(exalibur.causeDamage()));
-console.log(ork.takeDamage(exalibur.causeDamage()));
-console.log(ork.takeDamage(exalibur.causeDamage()));
-console.log(ork);
+console.log(orc);
+console.log(orc.takeDamage(exalibur.causeDamage()));
+console.log(orc.takeDamage(exalibur.causeDamage()));
+console.log(orc.takeDamage(exalibur.causeDamage()));
+console.log(orc.takeDamage(exalibur.causeDamage()));
+console.log(orc);
 
 
 // предложенный вариант 
@@ -72,7 +72,7 @@ class Sword2 {
   }
 }
 
-class Ork2 extends Enemy2 {
+class Orc2 extends Enemy2 {
 	constructor(health) {
 		super(health);
 	} 
@@ -86,7 +86,7 @@ class Ork2 extends Enemy2 {
 }
 
 
-const enemy = new Ork2(1000);
+const enemy = new Orc2(1000);
 console.log(enemy)
 const sword = new Sword2(5);
 sword.strike(enemy)
