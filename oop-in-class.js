@@ -133,3 +133,56 @@ class Builder {
 
 const house = new Builder().addFloor().addRoof().execute();
 console.log(house);
+
+class Character {
+  constructor(race, name, language) {
+    this.race = race;
+    this.name = name;
+    this.language = language;
+  }
+
+  speak() {
+    console.log(`I'm ${this.name} and I speak ${this.language}`)
+  }
+}
+
+class Orc3 extends Character {
+  constructor(race, name, language, weapons) {
+    super(race, name, language);
+    this.weapons = weapons;
+  }
+
+  attacK() {
+    console.log(`I'am ${this.race} and I attack you whith ${this.weapons}!`);
+  }
+
+  speak() {
+    console.log(`I'm Orc and I tell you go away!`);
+  }
+}
+
+class Elf extends Character {
+  #spellType
+  constructor(race, name, language, spell) {
+    super(race, name, language);
+    this.spell = spell;
+    this.#spellType = 'elf spell';
+  }
+
+  conjure() {
+    console.log(`${this.spell} ---- I elf and I conjure with ${this.#spellType}`);
+  }
+
+  speak() {
+    console.log(`I'm Elf and I spell you!`);
+  }
+}
+
+const orc3 = new Orc3('Orc', 'Jonh', 'tha-ba-tha-ba', 'Axe');
+console.log(orc3);
+console.log(orc3.speak());
+console.log(orc3.attacK());
+const elf = new Elf('Elf', 'Helen', 'elfian', 'whab-ba-da-ba-du');
+console.log(elf);
+console.log(elf.speak());
+console.log(elf.conjure());
