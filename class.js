@@ -2,7 +2,7 @@ class User {
   #password;
 	#login;
 
-  constructor (login, password) {
+  constructor(login, password) {
     this.#login = login;
 		this.#password = password;
   }
@@ -14,11 +14,12 @@ class User {
 // 			console.log('Password has been saved!')
 // 		}
 //   }
-	// Альтернатива if ... else ...
-  setPassword (password) {
+// Альтернатива if ... else ...
+
+  setPassword(password) {
 		try {
 			if (this.#password) {
-				throw new Error ('Password has already been set!');
+				throw new Error('Password has already been set!');
 			}
 			this.#password = [...password].reverse().join('') ;
 		} catch (error) {
@@ -30,39 +31,41 @@ class User {
 		return this.#login;
 	}
 
-	getLoginAndPassword (password) {
-		if (this.#login) {
-			if (this.#password) {
-				if (password){
-					const passwordValidate = [...this.#password].reverse().join('') === password 
-					  ? true
-						: false;
-					console.log(`login: ${this.#login}, password validate: ${passwordValidate}`)
-				} else {
-          console.log('Enter password!')
-				}
-			} else { 
-				console.log('Password has not been saved!')
-			}
-		} else { 
-			console.log('Login is empty!') 
-	  }
+	getLoginAndPassword(password) {
+    try {
+			if (!this.#login) {
+			throw new Error('Login is empty!');
+		  }
+		  if (!this.#password) {
+			  throw new Error('Password has not been saved!')
+		  }
+		  if (!password) {
+			  throw new Error('Enter password!')
+		  }
+		  const passwordValidate = [...this.#password].reverse().join('') === password 
+		    ? true
+			  : false;
+		  console.log(`login: ${this.#login}, password validate: ${passwordValidate}`)
+		} catch (error) {
+      console.log(error.message);
+		}
 	}
 
-	changePassword (oldPassword, newPassword) {
+	changePassword(oldPassword, newPassword) {
 
-    if (!oldPassword || !newPassword) {
-			console.log('Old or a new password is enpty!')
-		} else {
+		try {
+			if (!oldPassword || !newPassword) {
+				throw new Error();
+			}
 			if (!this.#password) {
-				console.log('Use setPassword method for set password!')
-			} else {
-				if (oldPassword === [...this.#password].reverse().join('')) {
-					this.#password = newPassword;
-				} else {
-					console.log('You enter incorrect password!')
+				throw new Error('Use setPassword method for set password!');
 			}
+			if (oldPassword !== [...this.#password].reverse().join('')) {
+				throw new Error('You enter incorrect password!');
 			}
+			this.#password = newPassword;
+		} catch(error) {
+      console.log(error.message);
 		}
 	}
 
@@ -72,9 +75,9 @@ class User {
 const user1 = new User('login');
 console.log(user1)
 user1.setPassword('iuiui6')
-user1.setPassword('iuqw2ediui6')
 user1.getLoginAndPassword('abc')
 user1.login = 'dsfdsfs';
+user1.changePassword('iuiwui6', 'asd')
 console.log(user1)
 
 
