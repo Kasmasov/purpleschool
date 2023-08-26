@@ -12,7 +12,7 @@ const Cart = function () {
 };
 
 Cart.prototype.addProduct = function(product) {
-	if (this.products.find((product) => product.id === product.id)) {
+	if (this.products.some((product) => product.id === product.id)) {
 		return
 	}
 	this.products.push(product);
