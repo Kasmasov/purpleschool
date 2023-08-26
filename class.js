@@ -55,7 +55,7 @@ class User {
 
 		try {
 			if (!oldPassword || !newPassword) {
-				throw new Error();
+				throw new Error('Old or a new password is enpty!');
 			}
 			if (!this.#password) {
 				throw new Error('Use setPassword method for set password!');
