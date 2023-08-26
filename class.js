@@ -7,17 +7,20 @@ class User {
 		this.#password = password;
   }
 
-  // setPassword (password) {
-  //   if (!this.#password) {
-  //     this.#password = [...password].reverse().join('')
-  //   } else {
-	// 		console.log('Password has been saved!')
-	// 	}
-  // }
+//   setPassword (password) {
+//     if (!this.#password) {
+//       this.#password = [...password].reverse().join('')
+//     } else {
+// 			console.log('Password has been saved!')
+// 		}
+//   }
 	// Альтернатива if ... else ...
   setPassword (password) {
 		try {
-			this.#password = [...password].reverse().join('') || console.log('Password is incorrect!');
+			if (this.#password) {
+				throw new Error ('Password has already been set!');
+			}
+			this.#password = [...password].reverse().join('') ;
 		} catch (error) {
 			console.log(error.message)
 		}
@@ -69,8 +72,8 @@ class User {
 const user1 = new User('login');
 console.log(user1)
 user1.setPassword('iuiui6')
+user1.setPassword('iuqw2ediui6')
 user1.getLoginAndPassword('abc')
-// user1.changePassword('iuiui6', 'xwz');
 user1.login = 'dsfdsfs';
 console.log(user1)
 
