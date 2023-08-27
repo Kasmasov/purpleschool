@@ -49,15 +49,11 @@ class User {
 
   setPassword(password) {
 		try {
-			setPass(this.#password, password)
+			setPass(this.#password, password);
 		} catch (error) {
 			console.log(error.message)
 		}
   };
-
-	get login () {
-		return this.#login;
-	}
 
 	getLoginAndPassword(password) {
     try {
@@ -70,22 +66,20 @@ class User {
 	changePassword(oldPassword, newPassword) {
 
 		try {
-			changePass(oldPass, newPassword, savedPass)
+			changePass(oldPassword, newPassword, savedPass)
 		} catch(error) {
       console.log(error.message);
 		}
 	}
-
-	
 }
 
 const user1 = new User('login');
 console.log(user1)
 user1.setPassword('iuiui6')
-user1.getLoginAndPassword('abc')
-user1.login = 'dsfdsfs';
-user1.changePassword('iuiwui6', 'asd')
-console.log(user1)
+// user1.getLoginAndPassword('abc')
+// user1.login = 'dsfdsfs';
+// user1.changePassword('iuiwui6', 'asd')
+// console.log(user1)
 
 
 class Car {
@@ -117,6 +111,6 @@ class Car {
 
 }
 
-const bmw = new Car('BMW', 'X-5', 100000)
-console.log('bmw', bmw)
-bmw.info();
+// const bmw = new Car('BMW', 'X-5', 100000)
+// console.log('bmw', bmw)
+// bmw.info();
