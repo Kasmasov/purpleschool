@@ -1,3 +1,34 @@
+function setPass(oldPass, newPass) {
+	
+	if (oldPass) {
+		throw new Error('Password has already been set!');
+	}
+	oldPass = [...newPass].reverse().join('') ;
+}
+
+function getLogAndPass(login, oldPass, newPass) {
+	if (!login) { throw new Error('Login is empty!'); }
+	if (!oldPass) { throw new Error('Password has not been saved!') }
+	if (!newPass) { throw new Error('Enter password!') }
+	const passwordValidate = [...oldPass].reverse().join('') === newPass 
+		? true
+		: false;
+	console.log(`login: ${login}, password validate: ${passwordValidate}`)
+}
+
+function changePass(oldPass, newPass, savedPass) {
+	if (!oldPass || !newPass) {
+		throw new Error('Old or a new password is enpty!');
+	}
+	if (!savedPass) {
+		throw new Error('Use setPassword method for set password!');
+	}
+	if (oldPass !== [...savedPass].reverse().join('')) {
+		throw new Error('You enter incorrect password!');
+	}
+	savedPass = newPassword;
+}
+
 class User {
   #password;
 	#login;
@@ -18,10 +49,7 @@ class User {
 
   setPassword(password) {
 		try {
-			if (this.#password) {
-				throw new Error('Password has already been set!');
-			}
-			this.#password = [...password].reverse().join('') ;
+			setPass(this.#password, password)
 		} catch (error) {
 			console.log(error.message)
 		}
@@ -33,19 +61,7 @@ class User {
 
 	getLoginAndPassword(password) {
     try {
-			if (!this.#login) {
-			throw new Error('Login is empty!');
-		  }
-		  if (!this.#password) {
-			  throw new Error('Password has not been saved!')
-		  }
-		  if (!password) {
-			  throw new Error('Enter password!')
-		  }
-		  const passwordValidate = [...this.#password].reverse().join('') === password 
-		    ? true
-			  : false;
-		  console.log(`login: ${this.#login}, password validate: ${passwordValidate}`)
+			getLogAndPass(this.#login, this.#password, password)
 		} catch (error) {
       console.log(error.message);
 		}
@@ -54,16 +70,7 @@ class User {
 	changePassword(oldPassword, newPassword) {
 
 		try {
-			if (!oldPassword || !newPassword) {
-				throw new Error('Old or a new password is enpty!');
-			}
-			if (!this.#password) {
-				throw new Error('Use setPassword method for set password!');
-			}
-			if (oldPassword !== [...this.#password].reverse().join('')) {
-				throw new Error('You enter incorrect password!');
-			}
-			this.#password = newPassword;
+			changePass(oldPass, newPassword, savedPass)
 		} catch(error) {
       console.log(error.message);
 		}
