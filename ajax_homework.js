@@ -1,7 +1,7 @@
 
-function requestPokemonAbility(method, url, name) {
+function requestPokemonAbility(url, name) {
     const request = new XMLHttpRequest();
-      request.open(method, `${url}/${name || ''}`);
+      request.open('get', `${url}/${name || ''}`);
       request.send();
   
       request.addEventListener('load', function() {
@@ -19,7 +19,7 @@ function requestPokemonAbility(method, url, name) {
       });
   }
   
-  requestPokemonAbility('get', 'https://pokeapi.co/api/v2/pokemon', 'ditto');
+  requestPokemonAbility('https://pokeapi.co/api/v2/pokemon', 'ditto');
   
   
   
