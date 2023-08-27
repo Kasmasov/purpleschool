@@ -99,37 +99,3 @@ user1.setPassword('ere4')
 user1.getLoginAndPassword('ere4')
 user1.changePassword('ere4', 'asd')
 console.log(user1)
-
-
-class Car {
-	#_brend;
-	#_model;
-	#_mileage;
-
-	constructor(brend, model, mileage) {
-		this.#brend = brend;
-		this.#model = model;
-		this.#mileage = mileage;
-	}
-
-	set #brend (brend) {
-		this.#_brend = brend;
-	}
-	
-	set #model (model) {
-		this.#_model = model;
-	}
-
-	set #mileage (mileage) {
-		this.#_mileage = mileage;
-	}
-
-	info() {
-		console.log(`brend: ${this.#_brend}, model: ${this.#_model}, mileage: ${this.#_mileage}`)
-	}
-
-}
-
-// const bmw = new Car('BMW', 'X-5', 100000)
-// console.log('bmw', bmw)
-// bmw.info();
