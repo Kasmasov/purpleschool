@@ -63,11 +63,11 @@ class HourBilling2 extends Billing2 {
 	  this.value = value;
   }
 
-  calculateTotal(value) {
-	  return super.calculateTotal() * value;
+  calculateTotal() {
+	  return super.calculateTotal() * this.value;
   }
 }
 
-const hour2 = new HourBilling2(1000);
-console.log('hour2', hour2.calculateTotal(1000))
-console.log('hour2.amount', hour2.amount)
+const hour2 = new HourBilling2(1000, 100);
+console.log('hour2', hour2.calculateTotal())
+console.log('hour2.amount', hour2.value)
