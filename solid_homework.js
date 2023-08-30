@@ -9,6 +9,17 @@ class Billing {
 	}
 }
 
+class Billing2 {
+
+	constructor(amount) {
+    this.amount = amount;
+	}
+
+	calculateTotal() {
+    return this.amount
+	}
+}
+
 class FixBilling {
   value = 1;
 }
@@ -45,3 +56,18 @@ const hourRatio = new Ratio(50);
 const itemRatio = new Ratio(100);
 console.log('fixBilling', bill.calculateTotal(fixBilling));
 console.log('hourBilling', bill.calculateTotal(itemRatio));
+
+class HourBilling2 extends Billing2 {
+  constructor(amount, value) {
+    super(amount);
+	  this.value = value;
+  }
+
+  calculateTotal(value) {
+	  return super.calculateTotal() * value;
+  }
+}
+
+const hour2 = new HourBilling2(1000);
+console.log('hour2', hour2.calculateTotal(1000))
+console.log('hour2.amount', hour2.amount)
