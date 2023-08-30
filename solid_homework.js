@@ -4,38 +4,31 @@ class Billing {
     this.amount = amount;
 	}
 
-	calculateTotal(k) {
-    return this.amount * k;
+	calculateTotal(ratio) {
+    return this.amount * ratio.value;
 	}
 }
 
-class FixBilling extends Billing {
-  constructor(amount) {
-    super(amount);
-	}
+class FixBilling {
+  value = 1;
+}
 
-	calculateTotal() {
-		return this.amount;
+class HourBilling {
+	constructor(hour) {
+	this.value = hour;
 	}
 }
 
-class HourBilling extends Billing {
-	constructor(amount) {
-    super(amount);
+class ItemBilling {
+	constructor(item) {
+		this.value = item;
 	}
 }
 
-class ItemBilling extends Billing {
-	constructor(amount) {
-		super(amount);
-	}
-}
-
-const bill = new Billing(20)
-const fix = new FixBilling(100)
+const bill = new Billing(40)
+const fix = new FixBilling()
 const hour = new HourBilling(20)
 const item = new ItemBilling(30)
-console.log('bill', bill.calculateTotal(1));
-console.log('fix', fix.calculateTotal());
-console.log('hour', hour.calculateTotal(100));
-console.log(item.calculateTotal(20));
+console.log('bill', bill.calculateTotal(fix));
+console.log('hour', bill.calculateTotal(hour));
+console.log('item', bill.calculateTotal(item));
