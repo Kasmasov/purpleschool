@@ -29,9 +29,9 @@ const romanToArabicKeys = {
 };
 
 function calculator(string) {
+	if (!validateString(string)) return;
 	let result = '';
 	try {
-    if (!validateString(string)) return;
     const stringToArray = string.split(' ');
     const firstOperand = stringToArray.slice(0, 1);
     const secondOperand = stringToArray.slice(-1);
@@ -43,13 +43,13 @@ function calculator(string) {
       operation.join('')
     )
     } else if (hasArrayOnlyRomanNumbers([...firstOperand.join(''), ...secondOperand.join('')])) {
-    const traslationToArabic = translationRomanToArabic([...firstOperand, ...secondOperand]);
+    const traslationToArabic = RomanToArabic([...firstOperand, ...secondOperand]);
     const getResultOperation = perfomOperation(
       Number.parseInt(traslationToArabic.slice(0, 1).join(''), 10),
       Number.parseInt(traslationToArabic.slice(1, 2).join(''), 10),
       operation.join('')
     );
-    result = translateArabicToRoman(Number.parseInt(getResultOperation, 10));
+    result = ArabicToRoman(Number.parseInt(getResultOperation, 10));
 		}
 	} catch(error) {
 			console.error(error);
@@ -64,16 +64,21 @@ function calculator(string) {
 			throw new Error('String is empty');
 		} else if (string.split(' ').length !== 3) {
 			throw new Error('Incoming string has incorrect format!');
+		} else if (!['+', '-', '/', '*'].includes(string.split(' ').slice(1,2).join(''))) {
+      throw new Error('Operation is not define!');
+		} else if (
+			  RomanToArabic([...string.split(' ').slice(-1), ...string.split(' ').slice(0, 1)])
+				.some((element) => Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1)
+			) {
+				throw new Error('Roman number must be I or more and less then XI');
 		} else if (
 			[
 			string.split(' ').slice(0, 1),
 			string.split(' ').slice(-1)
-	   	].forEach((element) => {
-				if (Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1) {
-          throw new Error('Operands must be more then 0 and less then 11');
-				}
-			})
-		) {
+	   	].some((element) => Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1 
+			)
+			) {
+			throw new Error('Arabic number must be more then 0 and less then 11');
 		} else if (!hasArrayOnlyArabicNumbers(
 			  [
 			    string.split(' ').slice(0, 1),
@@ -94,28 +99,7 @@ function calculator(string) {
 		return result;
 	}
 
-	// function validateString(string) {
-	// 	if (!string) {
-	// 		throw new Error('String is empty')
-	// 	}
-	// 	const stringToArray = string.split(' ');
-	// 	if (stringToArray.length !== 3) {
-	// 		throw new Error('Incoming string has incorrect format!')
-	// 	};
-	// 	const operands = [...stringToArray.slice(0, 1), ...stringToArray.slice(-1)];
-	// 	const operation = stringToArray.slice(1, 2);
-	// 	if (!['+', '-', '*', '/'].includes(operation.join(''))) {
-	// 		throw new Error('Incorrect operation!')
-	// 	}
-	// 	operands.forEach((element) => {
-	// 		if (Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1) {
-	// 				return new Error('Operands must be more then 0 and less then 11');
-	// 			}
-	// 	})
-	// 	throw stringToArray;
-	// }
-
-	function translateArabicToRoman(number) {
+	function ArabicToRoman(number) {
 		if (number <= 0) return '';
 		let result = '';
 		const letters = [["I","V"],["X","L"],["C","D"],["M",""]];
@@ -143,7 +127,7 @@ function calculator(string) {
     return result.split("").reverse().join("");
 	}
 
-	function translationRomanToArabic(array) {
+	function RomanToArabic(array) {
 		let result = [0 , 0];
     array.forEach((number, numberIndex) => {
 			number.split('').forEach((element, elementIndex) => {
@@ -176,7 +160,6 @@ function calculator(string) {
 				result[numberIndex] += romanToArabicKeys[element]
 			})
 		});
-		(result);
 		return result;
 	}
 
@@ -195,7 +178,7 @@ function calculator(string) {
 			case '/':
 				result = firstOperand / secondOperand;
 				break;
-			default: console.warn('Operation is not define!')
+			default: return;
 		}
 		return Math.floor(result).toString();
 	}
@@ -204,7 +187,7 @@ function calculator(string) {
 		return array.every((element) => {
 			if(Number.isFinite(Number(element))) {
 				return element;
-			}
+			} return false;
 		})
 	};
 
@@ -212,17 +195,17 @@ function calculator(string) {
 		return array.every((element) => {
 			if (romanNumbers.includes(element)) {
 				return element;
-			}
+			} return false;
 		})
 	};
 
-console.log('1 + 1---', calculator('1 + 1')); // вернется строка '3'
-console.log('2 / 14', calculator('2 / 14')); // вернется строка '3'
-console.log(calculator('I - IX')); // вернется строка 'II'
-console.log(calculator('VII / III')); // вернётся строка II'
-console.log('I + II ---', calculator('I + II')); // вернется строка 'III'
-// console.log(calculator('I - II')); // вернётся строка '' (пустая строка) т.к. в римской системе нет отрицательных чисел
-console.log(calculator('I + 1')); // вернётся исключение (ошибка) throws Error т.к. используются одновременно разные системы счисления
+console.log(calculator('1 + 2')); // вернется строка '3'
+console.log(calculator('7 - 4')); // вернется строка '3'
+console.log(calculator('X - VIII')); // вернется строка 'II'
+console.log(calculator('10 - 7')); // вернется строка '3'
+console.log(calculator('V - X')); // вернётся строка '' (пустая строка) т.к. в римской системе нет отрицательных чисел
+// console.log(calculator('3 % 4')); // вернется строка '3'
+// console.log(calculator('I + 1')); // вернётся исключение (ошибка) throws Error т.к. используются одновременно разные системы счисления
 // console.log(calculator('I')); // вернётся исключение throws Error т.к. строка не является математической операцией
 // console.log(calculator('1 + 1 + 1')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
-console.log(calculator('  ')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
+console.log(calculator('  ')); // вернётся исключение throws Error т.к. строка пустая
