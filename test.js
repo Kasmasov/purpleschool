@@ -31,33 +31,89 @@ const romanToArabicKeys = {
 function calculator(string) {
 	let result = '';
 	try {
-			const validatedString = validateString(string.trim());
-			const firstOperand = validatedString.slice(0, 1);
-			const secondOperand = validatedString.slice(-1);
-			const operation = validatedString.slice(1, 2);
-			if (hasArrayOnlyArabicNumbers([Number(...firstOperand), Number(...secondOperand)])) {
-        result = perfomOperation(
-					Number.parseInt(firstOperand, 10),
-					Number.parseInt(secondOperand, 10),
-					operation.join('')
-					)
-			} else if (hasArrayOnlyRomanNumbers([...firstOperand.join(''), ...secondOperand.join('')])) {
-				const traslationToArabic = translationRomanToArabic([...firstOperand, ...secondOperand]);
-				const getResultOperation = perfomOperation(
-					Number.parseInt(traslationToArabic.slice(0, 1).join(''), 10),
-					Number.parseInt(traslationToArabic.slice(1, 2).join(''), 10),
-					operation.join('')
-				);
-				result = translateArabicToRoman(Number.parseInt(getResultOperation, 10));
-				
-			} else {
-				throw new Error('Operands must be Arabic numbers or Roman numbers');
-			}
-		} catch(error) {
+    if (!validateString(string)) return;
+    const stringToArray = string.split(' ');
+    const firstOperand = stringToArray.slice(0, 1);
+    const secondOperand = stringToArray.slice(-1);
+    const operation = stringToArray.slice(1, 2);
+    if (hasArrayOnlyArabicNumbers([Number(...firstOperand), Number(...secondOperand)])) {
+      result = perfomOperation(
+      Number.parseInt(firstOperand, 10),
+      Number.parseInt(secondOperand, 10),
+      operation.join('')
+    )
+    } else if (hasArrayOnlyRomanNumbers([...firstOperand.join(''), ...secondOperand.join('')])) {
+    const traslationToArabic = translationRomanToArabic([...firstOperand, ...secondOperand]);
+    const getResultOperation = perfomOperation(
+      Number.parseInt(traslationToArabic.slice(0, 1).join(''), 10),
+      Number.parseInt(traslationToArabic.slice(1, 2).join(''), 10),
+      operation.join('')
+    );
+    result = translateArabicToRoman(Number.parseInt(getResultOperation, 10));
+		}
+	} catch(error) {
 			console.error(error);
 		}
 		return result;
   };
+
+	function validateString(string) {
+    let result = false;
+
+		if (!string.trim()) {
+			throw new Error('String is empty');
+		} else if (string.split(' ').length !== 3) {
+			throw new Error('Incoming string has incorrect format!');
+		} else if (
+			[
+			string.split(' ').slice(0, 1),
+			string.split(' ').slice(-1)
+	   	].forEach((element) => {
+				if (Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1) {
+          throw new Error('Operands must be more then 0 and less then 11');
+				}
+			})
+		) {
+		} else if (!hasArrayOnlyArabicNumbers(
+			  [
+			    string.split(' ').slice(0, 1),
+				  string.split(' ').slice(-1)
+			  ]
+			)
+			&& !hasArrayOnlyRomanNumbers(
+				[
+					...string.split(' ').slice(0, 1).join(''),
+					...string.split(' ').slice(-1).join('')
+				]
+			)) {
+        throw new Error('Operands must be Arabic numbers or Roman numbers!');
+		} else {
+			result = true;
+		}
+
+		return result;
+	}
+
+	// function validateString(string) {
+	// 	if (!string) {
+	// 		throw new Error('String is empty')
+	// 	}
+	// 	const stringToArray = string.split(' ');
+	// 	if (stringToArray.length !== 3) {
+	// 		throw new Error('Incoming string has incorrect format!')
+	// 	};
+	// 	const operands = [...stringToArray.slice(0, 1), ...stringToArray.slice(-1)];
+	// 	const operation = stringToArray.slice(1, 2);
+	// 	if (!['+', '-', '*', '/'].includes(operation.join(''))) {
+	// 		throw new Error('Incorrect operation!')
+	// 	}
+	// 	operands.forEach((element) => {
+	// 		if (Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1) {
+	// 				return new Error('Operands must be more then 0 and less then 11');
+	// 			}
+	// 	})
+	// 	throw stringToArray;
+	// }
 
 	function translateArabicToRoman(number) {
 		if (number <= 0) return '';
@@ -124,27 +180,6 @@ function calculator(string) {
 		return result;
 	}
 
-	function validateString(string) {
-		if (!string) {
-			throw new Error('String is empty')
-		}
-		const stringToArray = string.split(' ');
-		if (stringToArray.length !== 3) {
-			throw new Error('Incoming string has incorrect format!')
-		};
-		const operands = [...stringToArray.slice(0, 1), ...stringToArray.slice(-1)];
-		const operation = stringToArray.slice(1, 2);
-		if (!['+', '-', '*', '/'].includes(operation.join(''))) {
-			throw new Error('Incorrect operation!')
-		}
-		operands.forEach((element) => {
-			if (Number.parseInt(element, 10) >= 11 || Number.parseInt(element, 10) < 1) {
-					return new Error('Operands must be more then 0 and less then 11');
-				}
-		})
-		throw stringToArray;
-	}
-
 	function perfomOperation(firstOperand, secondOperand, operation) {
 		let result = 0;
     switch(operation) {
@@ -181,13 +216,13 @@ function calculator(string) {
 		})
 	};
 
-// console.log(calculator('1 + 1')); // вернется строка '3'
-// console.log(calculator('2 / 4')); // вернется строка '3'
-// console.log(calculator('I - IX')); // вернется строка 'II'
-// console.log(calculator('VII / III')); // вернётся строка II'
-// console.log(calculator('I + II')); // вернется строка 'III'
+console.log('1 + 1---', calculator('1 + 1')); // вернется строка '3'
+console.log('2 / 14', calculator('2 / 14')); // вернется строка '3'
+console.log(calculator('I - IX')); // вернется строка 'II'
+console.log(calculator('VII / III')); // вернётся строка II'
+console.log('I + II ---', calculator('I + II')); // вернется строка 'III'
 // console.log(calculator('I - II')); // вернётся строка '' (пустая строка) т.к. в римской системе нет отрицательных чисел
-// console.log(calculator('I + 1')); // вернётся исключение (ошибка) throws Error т.к. используются одновременно разные системы счисления
+console.log(calculator('I + 1')); // вернётся исключение (ошибка) throws Error т.к. используются одновременно разные системы счисления
 // console.log(calculator('I')); // вернётся исключение throws Error т.к. строка не является математической операцией
 // console.log(calculator('1 + 1 + 1')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
-console.log(calculator(' ')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
+console.log(calculator('  ')); // вернётся исключение throws Error т.к. формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
