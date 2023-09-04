@@ -38,9 +38,9 @@ buttonGroup.addEventListener('click', handleClick);
 function handleClick() {
   const id = event.target.getAttribute('id');
   [...buttonGroup.children].forEach((button) => {
-    button.id === id 
-    ? document.querySelector(`#${button.id}`).textContent = 'Нажата!'
-    : document.querySelector(`#${button.id}`).textContent = 'Нажми меня!';
+    document.querySelector(`#${button.id}`).textContent = button.id === id
+      ? 'Нажата!'
+      : 'Нажми меня!'
   });
   count.textContent = counter += 1;
 };
