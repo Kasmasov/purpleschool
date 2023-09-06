@@ -5,11 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "live-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c -o build/bundle.js"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "devDependencies": {
+    "rollup": "^3.28.1"
   }
 }
