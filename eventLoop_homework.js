@@ -15,15 +15,18 @@ navigator.geolocation.getCurrentPosition((position) => {
 
 function getGeolocation() {
 	return new Promise((resolve, reject) => {
+		if (!navigator.geolocation) {
+			reject(new Error('Your geolocation is unavailable!'));
+		}
     navigator.geolocation.getCurrentPosition((position) => {
 		  resolve({
 				latitude: position.coords.latitude,
 				longitude: position.coords.longitude
 			});
-			reject(new Error('Your geolocation is unavailable!'));
 		});
 	});
 }
 
 getGeolocation()
-	.then(({ latitude }) => console.log(latitude));
+	.then(({ latitude }) => console.log(latitude))
+	.catch((error) => console.error(error.message));
