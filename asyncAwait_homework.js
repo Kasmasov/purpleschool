@@ -8,14 +8,17 @@ function race(promises) {
     }
   });
 };
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function getIdea() {
-    return await fetch('https://www.boredapi.com/api/activity');
-}
+  await delay(120);
+  return await fetch('https://www.boredapi.com/api/activity');
+};
 
 async function getError() {
-    return await fetch('https://www2.boredapi.com/api/activity');
-}
+  await delay(2500);
+  return await fetch('https://www2.boredapi.com/api/activity');
+};
 
 const raceMethod = race([getIdea(), getIdea(), getError()]);
 console.log(raceMethod);
